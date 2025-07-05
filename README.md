@@ -10,7 +10,7 @@ Rich Sensor Data: Creates sensors for Voltage, Current, Power, Battery Percentag
 Full Configuration: Provides number and select entities to configure device settings like Over/Under Voltage Protection, Over Power/Temperature Protection, Screen Brightness, and Diverter Size directly from Home Assistant.
 Relay Control: A switch entity to turn the device's main relay on and off.
 Action Buttons: button entities to trigger actions like resetting data or performing a factory reset.
-# Prerequisites
+## Prerequisites
 A working Home Assistant instance.
 Your DT20HBW device must be connected to your local Wi-Fi network.
 You must know your device's Device ID and Local Key.
@@ -75,7 +75,8 @@ The integration will create a device with the following entities:
 | Button   | WiFi Reset                  | Resets the device's Wi-Fi configuration.        |
 | Button   | Factory Reset               | Resets all settings to factory defaults.        |
 | Button   | Exit Menu                   | Exits the settings menu on the device screen.   |
-# Troubleshooting
+
+## Troubleshooting
 Discovery Failed: If you leave the "Host" field blank and receive a "discovery failed" error, it's likely due to your network configuration (e.g., VLANs, or Home Assistant running in a Docker container not in host mode).
 Solution: Find the device's local IP address from your router and enter it manually in the "Host" field during setup.
 Discovery Port in Use: If you receive an error that the "discovery port is in use," it means another Tuya integration (like the official Tuya integration or LocalTuya) is already running a discovery scan.
