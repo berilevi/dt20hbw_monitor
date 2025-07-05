@@ -1,8 +1,8 @@
 {
   "domain": "dt20hbw_monitor",
   "name": "DT20HBW Monitor",
-  "documentation": "https://github.com/your_username/ha-dt20hbw-monitor",
-  "issue_tracker": "https://github.com/your_username/ha-dt20hbw-monitor/issues",
+  "documentation": "https://github.com/berilevi/dt20hbw_monitor",
+  "issue_tracker": "https://github.com/berilevi/dt20hbw_monitor/issues",
   "codeowners": ["@berilevi"],
   "config_flow": true,
   "iot_class": "local_polling",
