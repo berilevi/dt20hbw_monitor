@@ -87,4 +87,4 @@ Solution: You must use the manual IP entry method. Find the device's IP from you
 ## Contributing
 Contributions are welcome! If you have an idea for an improvement or find a bug, please open an issue to discuss it.
 ## Disclaimer
-This is a third-party integration and is not officially supported by Tuya or the device manufacturer. Use at your own risk.
+This is a third-party integration developed for my needs and is not officially supported by Tuya integration or the device manufacturer. Use at your own risk.
