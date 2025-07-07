@@ -1,4 +1,4 @@
-# DT20HBW Monitor Integration for Home Assistant
+# DT20HBW Smart Battery Monitor Integration for Home Assistant
 
 ![Product Image](images/dt20hbw.avif)
 
