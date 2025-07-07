@@ -1,5 +1,6 @@
 # DT20HBW Monitor Integration for Home Assistant
 
+![Product Image](images/dt20hbw.avif)
 This is a custom Home Assistant integration for the DT20HBW Tuya-based Smart Battery Monitor/Coulometer.
 It provides complete local control over the device, communicating directly with it on your network without depending on the Tuya cloud (after the initial setup to get the device credentials).
 
