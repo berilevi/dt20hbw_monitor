@@ -77,6 +77,7 @@ The integration will create a device with the following entities:
 | Button   | Data Reset                  | Resets cumulative energy/capacity data.         |
 | Button   | WiFi Reset                  | Resets the device's Wi-Fi configuration.        |
 | Button   | Factory Reset               | Resets all settings to factory defaults.        |
+| Button   | Reset Alarm                 | Sets the alarm status to off.                   |
 | Button   | Exit Menu                   | Exits the settings menu on the device screen.   |
 
 ## Troubleshooting
