@@ -2,6 +2,7 @@
 """Sensor platform for DT20HBW Monitor."""
 from homeassistant.components.sensor import SensorEntity, SensorDeviceClass, SensorStateClass
 from .entity import DT20HBWMonitorEntity
+from .const import DOMAIN
 
 # DP_ID, Name, Unit, Device Class, Scale Factor, State Class, Icon
 SENSORS = [
@@ -21,7 +22,7 @@ SENSORS = [
 
 async def async_setup_entry(hass, entry, async_add_entities):
     """Set up the sensor entities."""
-    data = hass.data[entry.domain][entry.entry_id]
+    data = hass.data[DOMAIN][entry.entry_id]
     coordinator = data["coordinator"]
     entities = [ DT20HBWMonitorSensor(coordinator, entry.entry_id, *params) for params in SENSORS ]
     async_add_entities(entities)

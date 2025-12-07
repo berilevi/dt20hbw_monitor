@@ -1,6 +1,8 @@
 """Select platform for DT20HBW Monitor."""
 from homeassistant.components.select import SelectEntity
+from homeassistant.exceptions import HomeAssistantError
 from .entity import DT20HBWMonitorEntity
+from .const import DOMAIN
 
 SELECTS = [
     (107, "Language", ["chinese", "english"]),
@@ -9,7 +11,7 @@ SELECTS = [
 ]
 
 async def async_setup_entry(hass, entry, async_add_entities):
-    data = hass.data[entry.domain][entry.entry_id]
+    data = hass.data[DOMAIN][entry.entry_id]
     coordinator, device = data["coordinator"], data["device"]
     entities = [ DT20HBWMonitorSelect(coordinator, device, entry.entry_id, *params) for params in SELECTS ]
     async_add_entities(entities)
@@ -28,7 +30,10 @@ class DT20HBWMonitorSelect(DT20HBWMonitorEntity, SelectEntity):
         return self.coordinator.data.get(self._dp_id) if self.coordinator.data else None
 
     async def async_select_option(self, option: str) -> None:
-        await self.hass.async_add_executor_job(self._device.set_value, self._dp_id, option)
-        await self.coordinator.async_request_refresh()
+        try:
+            await self.hass.async_add_executor_job(self._device.set_value, self._dp_id, option)
+            await self.coordinator.async_request_refresh()
+        except Exception as err:
+            raise HomeAssistantError(f"Failed to select {option} for {self._attr_name}: {err}")
 
 

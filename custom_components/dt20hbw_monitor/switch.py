@@ -1,6 +1,8 @@
 """Switch platform for DT20HBW Monitor."""
 from homeassistant.components.switch import SwitchEntity
+from homeassistant.exceptions import HomeAssistantError
 from .entity import DT20HBWMonitorEntity
+from .const import DOMAIN
 
 # DP_ID, Name, Icon
 SWITCHES = [
@@ -9,7 +11,7 @@ SWITCHES = [
 ]
 
 async def async_setup_entry(hass, entry, async_add_entities):
-    data = hass.data[entry.domain][entry.entry_id]
+    data = hass.data[DOMAIN][entry.entry_id]
     coordinator, device = data["coordinator"], data["device"]
     entities = [ DT20HBWMonitorSwitch(coordinator, device, entry.entry_id, *params) for params in SWITCHES ]
     async_add_entities(entities)
@@ -28,11 +30,17 @@ class DT20HBWMonitorSwitch(DT20HBWMonitorEntity, SwitchEntity):
         return self.coordinator.data.get(self._dp_id, False) if self.coordinator.data else False
 
     async def async_turn_on(self, **kwargs):
-        await self.hass.async_add_executor_job(self._device.set_value, self._dp_id, True)
-        await self.coordinator.async_request_refresh()
+        try:
+            await self.hass.async_add_executor_job(self._device.set_value, self._dp_id, True)
+            await self.coordinator.async_request_refresh()
+        except Exception as err:
+            raise HomeAssistantError(f"Failed to turn on {self._attr_name}: {err}")
 
     async def async_turn_off(self, **kwargs):
-        await self.hass.async_add_executor_job(self._device.set_value, self._dp_id, False)
-        await self.coordinator.async_request_refresh()
+        try:
+            await self.hass.async_add_executor_job(self._device.set_value, self._dp_id, False)
+            await self.coordinator.async_request_refresh()
+        except Exception as err:
+            raise HomeAssistantError(f"Failed to turn off {self._attr_name}: {err}")
 
 

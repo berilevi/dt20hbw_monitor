@@ -1,6 +1,8 @@
 """Number platform for DT20HBW Monitor."""
 from homeassistant.components.number import NumberEntity, NumberDeviceClass
+from homeassistant.exceptions import HomeAssistantError
 from .entity import DT20HBWMonitorEntity
+from .const import DOMAIN
 
 # DP_ID, Name, Min, Max, Step, Unit, Device Class, Scale Factor
 NUMBERS = [
@@ -18,7 +20,7 @@ NUMBERS = [
 ]
 
 async def async_setup_entry(hass, entry, async_add_entities):
-    data = hass.data[entry.domain][entry.entry_id]
+    data = hass.data[DOMAIN][entry.entry_id]
     coordinator, device = data["coordinator"], data["device"]
     entities = [ DT20HBWMonitorNumber(coordinator, device, entry.entry_id, *params) for params in NUMBERS ]
     async_add_entities(entities)
@@ -44,8 +46,11 @@ class DT20HBWMonitorNumber(DT20HBWMonitorEntity, NumberEntity):
         return None
 
     async def async_set_native_value(self, value: float) -> None:
-        scaled_value = int(value / self._scale) if self._scale != 1 else int(value)
-        await self.hass.async_add_executor_job(self._device.set_value, self._dp_id, scaled_value)
-        await self.coordinator.async_request_refresh()
+        try:
+            scaled_value = int(value / self._scale) if self._scale != 1 else int(value)
+            await self.hass.async_add_executor_job(self._device.set_value, self._dp_id, scaled_value)
+            await self.coordinator.async_request_refresh()
+        except Exception as err:
+            raise HomeAssistantError(f"Failed to set {self._attr_name} to {value}: {err}")
 
 

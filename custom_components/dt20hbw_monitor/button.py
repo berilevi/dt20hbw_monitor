@@ -1,6 +1,8 @@
 """Button platform for DT20HBW Monitor."""
 from homeassistant.components.button import ButtonEntity
+from homeassistant.exceptions import HomeAssistantError
 from .entity import DT20HBWMonitorEntity
+from .const import DOMAIN
 
 # DP_ID, Name, Icon, Payload to send on press
 BUTTONS = [
@@ -13,7 +15,7 @@ BUTTONS = [
 
 async def async_setup_entry(hass, entry, async_add_entities):
     """Set up the button entities."""
-    data = hass.data[entry.domain][entry.entry_id]
+    data = hass.data[DOMAIN][entry.entry_id]
     coordinator, device = data["coordinator"], data["device"]
     
     entities = [ 
@@ -39,8 +41,11 @@ class DT20HBWMonitorButton(DT20HBWMonitorEntity, ButtonEntity):
 
     async def async_press(self) -> None:
         """Handle the button press by sending the configured payload."""
-        await self.hass.async_add_executor_job(
-            self._device.set_value, self._dp_id, self._payload
-        )
-        # We also request a refresh to see the alarm status update immediately
-        await self.coordinator.async_request_refresh()
+        try:
+            await self.hass.async_add_executor_job(
+                self._device.set_value, self._dp_id, self._payload
+            )
+            # We also request a refresh to see the alarm status update immediately
+            await self.coordinator.async_request_refresh()
+        except Exception as err:
+            raise HomeAssistantError(f"Failed to press {self._attr_name}: {err}")
