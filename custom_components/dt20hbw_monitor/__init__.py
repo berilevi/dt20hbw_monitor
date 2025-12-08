@@ -64,6 +64,12 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
                 f"Cannot connect to device at {entry.data[CONF_HOST]}. "
                 f"Please verify the IP address and that the device is on the same network."
             )
+
+        elif error_code == '914':
+            raise UpdateFailed(
+                f"Authentication failed - incorrect device key or protocol version. "
+                f"Error {error_code}: {error_msg}"
+            )
         else:
             raise ConfigEntryNotReady(
                 f"Device connection failed: Error {error_code} - {error_msg}"
