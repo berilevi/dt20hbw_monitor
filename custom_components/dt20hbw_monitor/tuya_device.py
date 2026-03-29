@@ -128,7 +128,7 @@ async def async_probe_device(
             raise TuyaUnexpectedResponseError(status)
 
         error_code, error_message = error
-        if error_code == "914":
+        if error_code in ("904", "914"):
             auth_failures.append(version)
             continue
 

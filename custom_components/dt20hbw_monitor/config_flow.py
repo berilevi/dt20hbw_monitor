@@ -84,7 +84,7 @@ class DT20HBWMonitorConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
             )
 
             device_id = defaults.get(CONF_ID, data[CONF_ID])
-            await self.async_set_unique_id(device_id)
+            await self.async_set_unique_id(device_id, raise_on_progress=entry is None)
             if entry is None:
                 self._abort_if_unique_id_configured()
             else:
@@ -101,6 +101,7 @@ class DT20HBWMonitorConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
                         data[CONF_HOST],
                         data[CONF_KEY],
                         data[CONF_VERSION],
+                        fallback_versions=False,
                     )
                 except TuyaAuthError as err:
                     _LOGGER.warning(
