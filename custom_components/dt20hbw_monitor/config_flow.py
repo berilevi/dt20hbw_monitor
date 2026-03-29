@@ -40,16 +40,19 @@ class DT20HBWMonitorConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
     ):
         """Allow the user to update host, key, or protocol version."""
 
+        entry = self._get_reconfigure_entry()
+        self._abort_other_flows_for_entry(entry)
         return await self._async_handle_device_form(
             step_id="reconfigure",
             user_input=user_input,
-            entry=self._get_reconfigure_entry(),
+            entry=entry,
             allow_existing_key=True,
         )
 
     async def async_step_reauth(self, _entry_data: dict[str, Any]):
         """Start reauthentication for an existing entry."""
 
+        self._abort_other_flows_for_entry(self._get_reauth_entry())
         return await self.async_step_reauth_confirm()
 
     async def async_step_reauth_confirm(
@@ -62,6 +65,15 @@ class DT20HBWMonitorConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
             user_input=user_input,
             entry=self._get_reauth_entry(),
         )
+
+    def _abort_other_flows_for_entry(self, entry: ConfigEntry) -> None:
+        """Abort any in-progress flows for the same config entry."""
+
+        for flow in self.hass.config_entries.flow.async_progress_by_handler(DOMAIN):
+            if flow["flow_id"] != self.flow_id and flow.get("context", {}).get(
+                "entry_id"
+            ) == entry.entry_id:
+                self.hass.config_entries.flow.async_abort(flow["flow_id"])
 
     async def _async_handle_device_form(
         self,

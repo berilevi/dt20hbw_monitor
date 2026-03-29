@@ -12,7 +12,7 @@
         }
       },
       "reconfigure": {
-        "title": "[%key:common::config_flow::title::reconfigure%]",
+        "title": "Reconfigure DT20HBW monitor",
         "description": "Update the stored device settings. Leave Local key blank to keep the existing key. Leave Host blank to auto-discover the device again.",
         "data": {
           "local_key": "Local key",
@@ -21,7 +21,7 @@
         }
       },
       "reauth_confirm": {
-        "title": "[%key:common::config_flow::title::reauth%]",
+        "title": "Re-authenticate DT20HBW monitor",
         "description": "Enter the updated local key to restore access to the device.",
         "data": {
           "local_key": "Local key",
@@ -40,8 +40,8 @@
     },
     "abort": {
       "already_configured": "Device is already configured.",
-      "reauth_successful": "[%key:common::config_flow::abort::reauth_successful%]",
-      "reconfigure_successful": "[%key:common::config_flow::abort::reconfigure_successful%]"
+      "reauth_successful": "Re-authentication was successful.",
+      "reconfigure_successful": "Reconfiguration was successful."
     }
   }
 }
