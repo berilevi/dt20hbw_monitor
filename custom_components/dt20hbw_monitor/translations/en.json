@@ -1,0 +1,47 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Add DT20HBW monitor",
+        "description": "Enter the device credentials. Leave Host blank to auto-discover the device on your local network.",
+        "data": {
+          "id": "Device ID",
+          "local_key": "Local key",
+          "host": "Host",
+          "protocol_version": "Protocol version"
+        }
+      },
+      "reconfigure": {
+        "title": "[%key:common::config_flow::title::reconfigure%]",
+        "description": "Update the stored device settings. Leave Local key blank to keep the existing key. Leave Host blank to auto-discover the device again.",
+        "data": {
+          "local_key": "Local key",
+          "host": "Host",
+          "protocol_version": "Protocol version"
+        }
+      },
+      "reauth_confirm": {
+        "title": "[%key:common::config_flow::title::reauth%]",
+        "description": "Enter the updated local key to restore access to the device.",
+        "data": {
+          "local_key": "Local key",
+          "host": "Host",
+          "protocol_version": "Protocol version"
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "Cannot connect to the device.",
+      "discovery_failed": "Device discovery failed. Enter the device IP address manually.",
+      "discovery_port_in_use": "The Tuya discovery port is already in use. Enter the device IP address manually.",
+      "invalid_auth": "Authentication failed. Check the local key and device protocol version.",
+      "invalid_response": "The device returned an unexpected response.",
+      "unknown": "Unexpected error occurred."
+    },
+    "abort": {
+      "already_configured": "Device is already configured.",
+      "reauth_successful": "[%key:common::config_flow::abort::reauth_successful%]",
+      "reconfigure_successful": "[%key:common::config_flow::abort::reconfigure_successful%]"
+    }
+  }
+}
